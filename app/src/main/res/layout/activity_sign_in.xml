@@ -9,47 +9,75 @@
 
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_centerInParent="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="122dp"
+        android:orientation="vertical">
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/edtPhone"
-            android:hint="Phone Number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="@android:color/black"
+            android:hint="Phone Number"
+            android:inputType="phone"
             android:text="0988123344"
             android:textColor="@android:color/black"
+            android:textColorHint="@android:color/black"
             android:textSize="34sp"
-            android:inputType="phone"
             app:met_baseColor="@android:color/black"
             app:met_floatingLabel="highlight"
             app:met_maxCharacters="11"
             app:met_primaryColor="@android:color/black"
-            app:met_singleLineEllipsis="true"
-            />
+            app:met_singleLineEllipsis="true" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/edtPassword"
-            android:hint="Password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="@android:color/black"
+            android:hint="Password"
+            android:inputType="textPassword"
             android:text="1234"
             android:textColor="@android:color/white"
+            android:textColorHint="@android:color/black"
             android:textSize="34sp"
-            android:inputType="textPassword"
             app:met_baseColor="@android:color/black"
             app:met_floatingLabel="highlight"
             app:met_maxCharacters="11"
             app:met_primaryColor="@android:color/black"
-            app:met_singleLineEllipsis="true"
-            />
+            app:met_singleLineEllipsis="true" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <CheckBox
+                android:id="@+id/ckbRemember"
+                style="@style/Material.Drawable.CheckBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="Remember me"
+                android:textColor="@android:color/white" />
+            
+            <TextView
+                android:id="@+id/txtForgotPwd"
+                android:textColor="@android:color/white"
+                android:text="@string/forgot_pwd"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
     </LinearLayout>
+
 
     <info.hoang8f.widget.FButton
         android:id="@+id/btnSignIn"
@@ -67,5 +95,4 @@
         app:shadowHeight="5dp"
         app:cornerRadius="4dp"
         />
-
 </RelativeLayout>

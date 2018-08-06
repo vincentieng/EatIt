@@ -10,5 +10,9 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <string name="forgot_pwd"><u>Forgot Password ?</u></string>
+    <string name="facebook_app_id">435674143591562</string>
+    <string name="facebook_login_protocol_name">fb435674143591562</string>
+
 
 </resources>
