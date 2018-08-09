@@ -1,5 +1,6 @@
 package com.example.vincenttieng.restaurant;
 
+import android.content.Context;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +29,9 @@ import com.stepstone.apprating.listener.RatingDialogListener;
 
 import java.util.Arrays;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class FoodDetail extends AppCompatActivity implements RatingDialogListener{
 
     TextView food_name, food_price, food_description;
@@ -45,8 +49,19 @@ public class FoodDetail extends AppCompatActivity implements RatingDialogListene
     Food currentFood;
 
     @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/restaurant_font.otf")
+                .setFontAttrId(R.attr.fontPath)
+                .build());
+        setContentView(R.layout.activity_cart);
+
         setContentView(R.layout.activity_food_detail);
 
         //Firebase

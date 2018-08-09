@@ -1,6 +1,7 @@
 package com.example.vincenttieng.restaurant;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -30,14 +31,29 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import io.paperdb.Paper;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
 
     Button btnSignIn, btnSignUp;
     TextView txtSlogan;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/restaurant_font.otf")
+                .setFontAttrId(R.attr.fontPath)
+                .build());
+        setContentView(R.layout.activity_cart);
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
 
@@ -50,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
         Paper.init(this);
 
 
-//        Typeface face = Typeface.createFromAsset(getAssets(),"fonts/NABILA.rar");
-  //      txtSlogan.setTypeface(face);
+        Typeface face = Typeface.createFromAsset(getAssets(),"fonts/NABILA.TTF");
+        txtSlogan.setTypeface(face);
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

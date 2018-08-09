@@ -27,4 +27,5 @@ public class Category {
     public void setImage(String image) {
         Image = image;
     }
+
 }
