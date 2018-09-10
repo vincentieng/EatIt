@@ -21,6 +21,7 @@ import com.example.vincenttieng.restaurant.Database.Database;
 import com.example.vincenttieng.restaurant.Interface.ItemClickListener;
 import com.example.vincenttieng.restaurant.Model.Category;
 import com.example.vincenttieng.restaurant.Model.Food;
+import com.example.vincenttieng.restaurant.Model.Order;
 import com.example.vincenttieng.restaurant.ViewHolder.FoodViewHolder;
 import com.example.vincenttieng.restaurant.ViewHolder.MenuViewHolder;
 import com.facebook.CallbackManager;
@@ -163,6 +164,14 @@ public class FoodList extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (adapter != null){
+            adapter.startListening();
+        }
+    }
+
     private void loadListFood(final String categoryId) {
         Query searchByName = foodList.orderByChild("menuId").equalTo(categoryId);
 
@@ -185,6 +194,21 @@ public class FoodList extends AppCompatActivity {
                 viewHolder.food_price.setText(String.format("$ %s", model.getPrice().toString()));
                 Picasso.with(getBaseContext()).load(model.getImage())
                         .into(viewHolder.food_image);
+
+                viewHolder.quick_cart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new Database(getBaseContext()).addToCart(new Order(
+                                adapter.getRef(position).getKey(),
+                                model.getName(),
+                                "1",
+                                model.getPrice(),
+                                model.getDiscount(),
+                                model.getImage()
+                        ));
+                        Toast.makeText(FoodList.this, "Added to Cart", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
                 if (localDB.isFavorite(adapter.getRef(position).getKey()))
                     viewHolder.fav_image.setImageResource(R.drawable.ic_favorite_black_24dp);

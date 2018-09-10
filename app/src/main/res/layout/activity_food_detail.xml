@@ -47,7 +47,7 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.design.widget.FloatingActionButton
+    <com.andremion.counterfab.CounterFab
         android:id="@+id/btnCart"
         app:srcCompat="@drawable/ic_shopping_cart_black_24dp"
         app:backgroundTint="@android:color/white"
@@ -77,61 +77,59 @@
 
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
-        android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardElevation="5dp"
-                app:cardUseCompatPadding="true"
-                >
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/food_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:padding ="12dp"
+                        android:padding="12dp"
                         android:text="Food Name"
                         android:textColor="@color/colorPrimary"
                         android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:id="@+id/layout_price"
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
                         <ImageView
-                            app:srcCompat="@drawable/ic_attach_money_black_24dp"
-                            android:layout_weight="1"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_attach_money_black_24dp" />
 
                         <TextView
                             android:id="@+id/food_price"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="9"
                             android:text="1 000"
                             android:textColor="@color/colorPrimary"
                             android:textSize="18sp"
-                            android:textStyle="bold"
-                            android:layout_width="0dp"
-                            android:layout_weight="9"
-                            android:layout_height="wrap_content" />
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
@@ -139,13 +137,13 @@
                         android:id="@+id/number_button"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginLeft="8dp"
                         android:layout_marginBottom="18dp"
-                        app:textSize="8sp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="8dp"
                         app:backGroundColor="@color/colorAccent"
                         app:finalNumber="20"
                         app:initialNumber="1"
+                        app:textSize="8sp"
 
                         />
 
@@ -153,37 +151,54 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                app:cardElevation="5dp"
-                app:cardUseCompatPadding="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:cardElevation="5dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <RatingBar
                         android:id="@+id/RatingBar"
-                        android:rating="0"
-                        android:max="5"
-                        android:isIndicator="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:isIndicator="true"
+                        android:max="5"
+                        android:rating="0"
 
                         />
+
                     <TextView
                         android:id="@+id/food_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:lineSpacingMultiplier="1.5"
                         android:padding="12dp"
                         android:text="Description"
                         android:textColor="@android:color/black"
-                        android:textSize="14sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:textSize="14sp" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
+
+            <info.hoang8f.widget.FButton
+                android:id="@+id/btnShowComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:text="Show Comment"
+                android:textColor="@android:color/white"
+                app:cornerRadius="4dp"
+                app:fButtonColor="@color/colorPrimary"
+                app:shadowColor="@android:color/black"
+                app:shadowEnabled="true"
+                app:shadowHeight="5dp" />
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

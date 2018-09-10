@@ -90,7 +90,7 @@ public class OrderStatus extends AppCompatActivity {
             @Override
             public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View itemView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.menu_item, parent ,false);
+                        .inflate(R.layout.order_layout, parent ,false);
                 return new OrderViewHolder(itemView);
             }
         };

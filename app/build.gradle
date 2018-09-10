@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.vincenttieng.restaurant"
-        minSdkVersion 21
+        minSdkVersion 23
         vectorDrawables.useSupportLibrary = true
         targetSdkVersion 26
         buildToolsVersion '27.0.3'
@@ -29,6 +29,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
+    //Google
+    implementation 'com.google.android.gms:play-services-places:11.6.2'
+    implementation 'com.google.android.gms:play-services:11.6.2'
 
     //Firebase
     implementation 'com.google.firebase:firebase-messaging:11.6.2'
@@ -46,19 +49,24 @@ dependencies {
     implementation 'io.paperdb:paperdb:2.1'
     implementation 'com.github.rey5137:material:1.2.4'
     implementation 'com.stepstone.apprating:app-rating:2.0.0'
+
+    //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-scalars:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+
     implementation 'com.github.d-max:spots-dialog:0.7@aar'
     implementation 'com.facebook.android:facebook-share:[4,5)'
+
+    //Slider
+    implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'com.daimajia.slider:library:1.1.5@aar'
     //Paypal
     implementation 'com.paypal.sdk:paypal-android-sdk:2.15.3'
 
     //Font
     implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
 
-
-    //
     implementation 'com.github.andremion:counterfab:1.0.1'
 
     //Basic library

@@ -30,9 +30,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andremion.counterfab.CounterFab;
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.example.vincenttieng.restaurant.Common.Common;
 import com.example.vincenttieng.restaurant.Database.Database;
 import com.example.vincenttieng.restaurant.Interface.ItemClickListener;
+import com.example.vincenttieng.restaurant.Model.Banner;
 import com.example.vincenttieng.restaurant.Model.Category;
 import com.example.vincenttieng.restaurant.Model.Token;
 import com.example.vincenttieng.restaurant.ViewHolder.MenuViewHolder;
@@ -42,8 +47,11 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.squareup.picasso.Picasso;
@@ -70,6 +78,10 @@ public class Home extends AppCompatActivity
     SwipeRefreshLayout swipeRefreshLayout;
     CounterFab fab;
 
+    //Slider
+    HashMap<String, String> image_list;
+    SliderLayout mSlider;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -84,9 +96,9 @@ public class Home extends AppCompatActivity
                 .setDefaultFontPath("fonts/restaurant_font.otf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
-        setContentView(R.layout.activity_cart);
-
         setContentView(R.layout.activity_home);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Menu");
         setSupportActionBar(toolbar);
@@ -199,6 +211,62 @@ public class Home extends AppCompatActivity
 
         updateToken(FirebaseInstanceId.getInstance().getToken());
 
+        setupSlider();
+
+    }
+
+    private void setupSlider() {
+        mSlider= (SliderLayout)findViewById(R.id.slider);
+        image_list = new HashMap<>();
+
+        final DatabaseReference banners = database.getReference("Banner");
+        banners.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapShot:dataSnapshot.getChildren())
+                {
+                    Banner banner = postSnapShot.getValue(Banner.class);
+                    image_list.put(banner.getName()+"@@@"+banner.getId(), banner.getImage());
+                }
+                for (String key : image_list.keySet())
+                {
+                    String[] keySplit = key.split("@@@");
+                    String nameofFood = keySplit[0];
+                    String idOfFood = keySplit[1];
+
+                    //Create Slider
+                    final TextSliderView textSliderView = new TextSliderView(getBaseContext());
+                    textSliderView
+                            .description(nameofFood)
+                            .image(image_list.get(key))
+                            .setScaleType(BaseSliderView.ScaleType.Fit)
+                            .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                                @Override
+                                public void onSliderClick(BaseSliderView slider) {
+                                    Intent intent = new Intent(Home.this, FoodDetail.class);
+                                    intent.putExtras(textSliderView.getBundle());
+                                    startActivity(intent);
+                                }
+                            });
+                    textSliderView.bundle(new Bundle());
+                    textSliderView.getBundle().putString("FoodId", idOfFood);
+
+                    mSlider.addSlider(textSliderView);
+                    banners.removeEventListener(this);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        mSlider.setPresetTransformer(SliderLayout.Transformer.Background2Foreground);
+        mSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        mSlider.setCustomAnimation(new DescriptionAnimation());
+        mSlider.setDuration(4000);
+
     }
 
     private void updateToken(String token) {
@@ -225,6 +293,7 @@ public class Home extends AppCompatActivity
     protected void onStop() {
         super.onStop();
         adapter.stopListening();
+        mSlider.stopAutoCycle();
     }
         /*FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder()
                 .setQuery(category, Category.class)
@@ -307,9 +376,46 @@ public class Home extends AppCompatActivity
             showChangePasswordDialog();
         }
 
+        else if(id == R.id.nav_home_address)
+        {
+
+            showHomeAddressDialog();
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void showHomeAddressDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(Home.this);
+        alertDialog.setTitle("Change Home Address");
+        alertDialog.setMessage("Please fill all information ");
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View layout_home = inflater.inflate(R.layout.home_adress_layout, null);
+
+        final MaterialEditText edtHomeAddress = (MaterialEditText)layout_home.findViewById(R.id.edtHomeAddress  );
+
+        alertDialog.setView(layout_home);
+
+        alertDialog.setPositiveButton("UPDATE", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+                Common.currentUser.setHomeAddress(edtHomeAddress.getText().toString());
+                FirebaseDatabase.getInstance().getReference("User")
+                        .child(Common.currentUser.getPhone())
+                        .setValue(Common.currentUser)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Toast.makeText(Home.this, "Update Home Successfull", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
+        alertDialog.show();
     }
 
     private void showChangePasswordDialog() {
@@ -380,7 +486,9 @@ public class Home extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        loadMenu();
+        if (adapter != null){
+            adapter.startListening();
+        }
         fab.setCount(new Database(this).getCountCart());
 
     }
